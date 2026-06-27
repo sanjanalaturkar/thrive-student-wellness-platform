@@ -1,0 +1,6 @@
+{
+  "name": "Thrive Student Wellness Platform",
+  "description": "An AI-powered student wellness platform providing compassionate emotional companion chimes, daily sleep/study metrics tracking, smart journal analysis, custom synthesized soundscapes, anonymous buddy pairing, and a secure counselor dashboard with stress heatmaps.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,109 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Represents a student or counselor's profile",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "The unique Firebase Auth UID" },
+        "role": { "type": "string", "enum": ["student", "counsellor", "admin"], "description": "User account role" },
+        "name": { "type": "string", "description": "User display name or alias" },
+        "department": { "type": "string", "description": "College department, e.g. Computer Science" },
+        "year": { "type": "string", "description": "Academic year, e.g. Freshman, Senior" },
+        "streak": { "type": "integer", "description": "Consecutive days tracking mood" },
+        "badges": { "type": "array", "description": "Badges earned, e.g. 'Consistent Tracker', 'Mindfulness Guru'" },
+        "avatarSeed": { "type": "string", "description": "Seed for rendering avatar plant or shape" }
+      },
+      "required": ["userId", "role", "name"]
+    },
+    "MoodLog": {
+      "title": "Daily Mood Log",
+      "description": "User's recorded daily mood, journal, and sleep/study analytics",
+      "type": "object",
+      "properties": {
+        "logId": { "type": "string", "description": "Unique log ID" },
+        "userId": { "type": "string", "description": "The UID of the user who logged this" },
+        "score": { "type": "integer", "description": "Mood score from 1 (severe stress) to 5 (excellent)" },
+        "notes": { "type": "string", "description": "Journal text or vent transcription" },
+        "sentiment": { "type": "string", "enum": ["positive", "neutral", "negative", "crisis"], "description": "AI analysis of notes" },
+        "sleepHours": { "type": "number", "description": "Hours of sleep last night" },
+        "studyHours": { "type": "number", "description": "Hours spent studying today" },
+        "screenTime": { "type": "number", "description": "Screen time in hours" },
+        "attendance": { "type": "number", "description": "Attendance percentage for classes" },
+        "burnoutIndex": { "type": "number", "description": "Predicted burnout level from 0 to 100" },
+        "timestamp": { "type": "string", "format": "date-time", "description": "When the mood was logged" },
+        "tags": { "type": "array", "description": "User tags like ['exams', 'placement']" }
+      },
+      "required": ["logId", "userId", "score", "timestamp"]
+    },
+    "CommunityPost": {
+      "title": "Community Post",
+      "description": "An anonymous peer support forum post",
+      "type": "object",
+      "properties": {
+        "postId": { "type": "string", "description": "Unique post ID" },
+        "authorId": { "type": "string", "description": "UID of the author (kept private in Firestore rules)" },
+        "authorAlias": { "type": "string", "description": "Anonymous alias chosen by author" },
+        "content": { "type": "string", "description": "Post body text" },
+        "category": { "type": "string", "enum": ["Exam Stress", "Placement Anxiety", "Homesickness", "General Vent", "Celebrating Wins"], "description": "Discussion category" },
+        "likes": { "type": "integer", "description": "Number of stars/likes" },
+        "timestamp": { "type": "string", "format": "date-time", "description": "Post creation time" },
+        "repliesCount": { "type": "integer", "description": "Number of replies" }
+      },
+      "required": ["postId", "authorId", "authorAlias", "content", "category", "timestamp"]
+    },
+    "CommunityReply": {
+      "title": "Community Reply",
+      "description": "A reply to an anonymous support post",
+      "type": "object",
+      "properties": {
+        "replyId": { "type": "string", "description": "Unique reply ID" },
+        "postId": { "type": "string", "description": "Parent post ID" },
+        "authorId": { "type": "string", "description": "UID of reply author" },
+        "authorAlias": { "type": "string", "description": "Anonymous alias for the replier" },
+        "content": { "type": "string", "description": "Reply content text" },
+        "timestamp": { "type": "string", "format": "date-time", "description": "Reply creation time" }
+      },
+      "required": ["replyId", "postId", "authorId", "authorAlias", "content", "timestamp"]
+    },
+    "HighRiskAlert": {
+      "title": "High Risk Alert",
+      "description": "Alert triggered by severe stress or self-harm markers for college counsellors",
+      "type": "object",
+      "properties": {
+        "alertId": { "type": "string", "description": "Unique alert ID" },
+        "userId": { "type": "string", "description": "UID of the flagged student" },
+        "studentName": { "type": "string", "description": "Student display name" },
+        "department": { "type": "string", "description": "Student's department" },
+        "timestamp": { "type": "string", "format": "date-time", "description": "Trigger timestamp" },
+        "severity": { "type": "string", "enum": ["medium", "high", "critical"], "description": "Severity level" },
+        "status": { "type": "string", "enum": ["pending", "resolved"], "description": "Resolution status" },
+        "reason": { "type": "string", "description": "Summary of crisis detection trigger" },
+        "contextNotes": { "type": "string", "description": "Flagged text content" }
+      },
+      "required": ["alertId", "userId", "timestamp", "severity", "status", "reason"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": "User",
+      "description": "User profiles for college students and counselors"
+    },
+    "moodLogs/{logId}": {
+      "schema": "MoodLog",
+      "description": "Stored user mood logs"
+    },
+    "communityPosts/{postId}": {
+      "schema": "CommunityPost",
+      "description": "Anonymous support posts"
+    },
+    "communityPosts/{postId}/replies/{replyId}": {
+      "schema": "CommunityReply",
+      "description": "Replies to support posts"
+    },
+    "highRiskAlerts/{alertId}": {
+      "schema": "HighRiskAlert",
+      "description": "Counsellor alerts for high stress"
+    }
+  }
+}
