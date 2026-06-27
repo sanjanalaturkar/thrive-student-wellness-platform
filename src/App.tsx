@@ -444,29 +444,6 @@ export default function App() {
 
       {/* Main Container Workspace */}
       <main className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 space-y-6 z-10">
-        
-        {isLocalSandboxMode() && (
-          <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-amber-200 text-xs shadow-lg">
-            <div className="flex gap-2.5 items-start">
-              <span className="text-lg">⚠️</span>
-              <div>
-                <p className="font-semibold text-white">Confidential Local Sandbox Active</p>
-                <p className="text-[11px] text-amber-300/80 leading-relaxed mt-0.5">
-                  Firebase Anonymous Authentication is currently disabled or restricted in this project's Firebase Console. To unlock cloud sync, please enable the Anonymous sign-in provider under Auth settings. The application is running beautifully using sandboxed offline storage!
-                </p>
-              </div>
-            </div>
-            <a 
-              href="https://console.firebase.google.com/" 
-              target="_blank" 
-              rel="noreferrer"
-              className="bg-amber-600 hover:bg-amber-500 text-white font-semibold px-3.5 py-1.5 rounded-xl shrink-0 transition-all text-[11px] flex items-center gap-1 self-end sm:self-center"
-            >
-              Firebase Console <ChevronRight size={12} />
-            </a>
-          </div>
-        )}
-
         {/* Dynamic header welcome */}
         <header className="flex justify-between items-center pb-4 border-b border-white/10 shrink-0">
           <div>
